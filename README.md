@@ -19,10 +19,11 @@ AI coding tools can produce useful code quickly, but their output still needs re
 - Explicit, reproducible demo data that can be removed without touching real records.
 - Optional OpenAI-compatible HTTP provider integration using environment variables only.
 - Pytest coverage for persistence, validation, evaluation, scoring, exports, and demo data.
+- A portfolio-ready Streamlit shell with persistent navigation, responsive layouts, empty states, and light/dark-readable visual hierarchy.
 
 ## Architecture
 
-`app.py` is the overview page. Streamlit pages in `pages/` contain presentation and user interactions. Business logic lives in `src/`:
+`app.py` is the Streamlit launcher and navigation shell. The overview dashboard lives in `pages/0_Overview.py`; the remaining pages in `pages/` contain presentation and user interactions. Shared visual components live in `src/ui.py`, while business logic lives in `src/`:
 
 - `database.py`: connection handling, schema initialization, CRUD, and demo-data cleanup.
 - `evaluation_engine.py`: safe, predefined tasks and trusted reference adapters.
@@ -31,6 +32,7 @@ AI coding tools can produce useful code quickly, but their output still needs re
 - `sample_data.py`: clearly marked illustrative records.
 - `validators.py`: reusable input validation.
 - `provider.py`: optional, configurable OpenAI-compatible request adapter.
+- `ui.py`: shared theme, navigation, page headers, status badges, and footer components.
 
 ## Technology stack
 
@@ -76,6 +78,8 @@ The application creates `data/evaluations.db` on first start. Set `AI_EVAL_DB_PA
 4. Use **Tool Comparison** only for records with comparable tasks and test counts.
 5. Add evidence-backed observations in **Research Notes** and hypotheses in **Business Use Cases**.
 6. Export reports from **Reports**. Demo records are labelled and can be removed from the sidebar.
+
+The sidebar also includes links to the project repository and live demo. These are portfolio references only; the application itself remains runnable locally with SQLite and does not require deployment services.
 
 ## Database design
 
