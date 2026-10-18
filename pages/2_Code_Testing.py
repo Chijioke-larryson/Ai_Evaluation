@@ -12,14 +12,17 @@ from src.ui import footer, page_header, render_sidebar, section_title
 
 render_sidebar("Code Testing")
 page_header("EVALUATION WORKFLOW", "Code Testing", "Run repeatable trusted tasks against the evaluation workflow and record what the results actually show.")
-st.warning("Security boundary: only reference implementations shipped with the app run here. Pasted AI-generated Python is stored for review and is never executed with exec(), eval(), or an unrestricted subprocess.", icon=":material/shield:")
+st.markdown("<div class='lab-scope'><span class='lab-scope-label'>Evaluation scope</span> Tests run against the lab's trusted reference functions. AI responses are retained as evidence for review.</div>", unsafe_allow_html=True)
 
 experiments = list_experiments()
 if not experiments:
     st.markdown('<div class="lab-card"><p class="lab-kicker">No experiment selected</p><h3>Create an experiment first</h3><p class="lab-muted">Once a record exists, choose it below and run one of the predefined tasks.</p></div>', unsafe_allow_html=True)
 else:
-    selected_id = st.selectbox("Experiment record", [item["id"] for item in experiments], format_func=lambda value: next(item["title"] for item in experiments if item["id"] == value))
-    selected_task = st.selectbox("Predefined task", task_options(), format_func=lambda item: item.title)
+    control_left, control_right = st.columns([1.2, 1], gap="large")
+    with control_left:
+        selected_id = st.selectbox("Experiment record", [item["id"] for item in experiments], format_func=lambda value: next(item["title"] for item in experiments if item["id"] == value))
+    with control_right:
+        selected_task = st.selectbox("Predefined task", task_options(), format_func=lambda item: item.title)
     st.markdown(f'<div class="lab-card"><p class="lab-kicker">{selected_task.title}</p><h3>{selected_task.description}</h3><p class="lab-muted">Evaluation criteria: {selected_task.criteria}</p></div>', unsafe_allow_html=True)
     st.write("")
     if st.button("Run trusted reference evaluation", type="primary", icon=":material/play_arrow:"):
